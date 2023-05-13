@@ -18,10 +18,9 @@ public class StockController {
     public StockController() {
         books = new ArrayList<>();
         books.add(new Book("2", 2, "Harry Potter et le prince de sang mêlé", "J.K.Rowling"));
-        books.add(new Book("8", 4, "Harry Potter et la chambre des secrets", "J.K.Rowling 2"));
+        books.add(new Book("8", 4, "Harry Potter et la chambre des secrets", "J.K.Rowling"));
         books.add(new Book("7", 0, "One Piece Tome 103", "Eichiro Oda"));
         books.add(new Book("1", 8, "Une vie", "Maupassant"));
-        books.add(new Book("3", 6, "Le dev pour les nuls", "Emile Zola"));
     }
 
     @GetMapping("/stock")
