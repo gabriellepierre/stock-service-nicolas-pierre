@@ -3,9 +3,12 @@ package fr.uca.StockServiceNicolasPierre.controller;
 import fr.uca.StockServiceNicolasPierre.exception.BookNotFoundException;
 import fr.uca.StockServiceNicolasPierre.model.Book;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Cache.Connection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,18 @@ public class StockController {
         books.add(new Book("7", 0, "One Piece Tome 103", "Eichiro Oda"));
         books.add(new Book("1", 8, "Une vie", "Maupassant"));
     }
+
+    // private Connection getConnection() throws Exception {
+    // // Class.forName("org.postgresql.Driver");
+    // URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+    // String username = dbUri.getUserInfo().split(":")[0];
+    // String password = dbUri.getUserInfo().split(":")[1];
+    // // String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+    // String dbUrl = System.getenv("spring.datasource.url");
+
+    // // return DriverManager.getConnection(dbUrl, username, password);
+    // }
 
     @GetMapping("/stock")
     @ExceptionHandler(BookNotFoundException.class)

@@ -3,9 +3,6 @@ package fr.uca.StockServiceNicolasPierre;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
-
 @SpringBootApplication
 public class StockServiceNicolasPierreApplication {
 
@@ -18,22 +15,6 @@ public class StockServiceNicolasPierreApplication {
 		if (webPort == null || webPort.isEmpty()) {
 			webPort = "8080";
 		}
-
-		final Server server = new Server(Integer.valueOf(webPort));
-		final WebAppContext root = new WebAppContext();
-
-		root.setContextPath("/");
-		// Parent loader priority is a class loader setting that Jetty accepts.
-		// By default Jetty will behave like most web containers in that it will
-		// allow your application to replace non-server libraries that are part of the
-		// container. Setting parent loader priority to true changes this behavior.
-		// Read more here: http://wiki.eclipse.org/Jetty/Reference/Jetty_Classloading
-		root.setParentLoaderPriority(true);
-
-		server.setHandler(root);
-
-		server.start();
-		server.join();
 	}
 
 }
