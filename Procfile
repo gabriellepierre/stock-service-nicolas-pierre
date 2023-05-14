@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* fr.uca.StockServiceNicolasPierre.StockServiceNicolasPierreApplication
+web: java -cp target/classes:target/dependency/* fr.uca.StockServiceNicolasPierre.StockServiceNicolasPierreApplication.java
