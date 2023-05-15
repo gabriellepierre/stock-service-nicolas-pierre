@@ -3,12 +3,9 @@ package fr.uca.StockServiceNicolasPierre.controller;
 import fr.uca.StockServiceNicolasPierre.exception.BookNotFoundException;
 import fr.uca.StockServiceNicolasPierre.model.Book;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Cache.Connection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
