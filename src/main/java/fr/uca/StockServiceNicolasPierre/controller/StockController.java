@@ -17,22 +17,22 @@ public class StockController {
 
     public StockController() {
         books = new ArrayList<>();
-        books.add(new Book("2", 2));
+        books.add(new Book("2", 18293));
         books.add(new Book("8", 4));
         books.add(new Book("7", 0));
         books.add(new Book("1", 8));
     }
 
     // private Connection getConnection() throws Exception {
-    // // Class.forName("org.postgresql.Driver");
+    // Class.forName("org.postgresql.Driver");
     // URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
     // String username = dbUri.getUserInfo().split(":")[0];
     // String password = dbUri.getUserInfo().split(":")[1];
-    // // String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+    // String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
     // String dbUrl = System.getenv("spring.datasource.url");
 
-    // // return DriverManager.getConnection(dbUrl, username, password);
+    // return DriverManager.getConnection(dbUrl, username, password);
     // }
 
     @GetMapping("/stock/{isbn}")
