@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* fr.uca.StockServiceNicolasPierre.Main.java
+web: java -jar target/StockServiceNicolasPierre-0.0.1-SNAPSHOT.jar
