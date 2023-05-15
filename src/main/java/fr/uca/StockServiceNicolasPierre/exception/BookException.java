@@ -1,9 +1,9 @@
 package fr.uca.StockServiceNicolasPierre.exception;
 
-import me.alidg.errors.annotation.ExceptionMapping;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ExceptionMapping(errorCode = "400", statusCode = HttpStatus.BAD_REQUEST)
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Bad book request")
 public class BookException extends RuntimeException {
     public BookException(String exception) {
         super(exception);
