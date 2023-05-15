@@ -35,9 +35,9 @@ public class StockController {
     // // return DriverManager.getConnection(dbUrl, username, password);
     // }
 
-    @GetMapping("/stock")
+    @GetMapping("/stock/{isbn}")
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<Integer> getBookStock(@RequestParam(value = "isbn") String isbn) {
+    public ResponseEntity<Integer> getBookStock(@PathVariable String isbn) {
         Book searchedBook = books.stream().filter(book -> book.getIsbn().equals(isbn)).findFirst().get();
         int stock = searchedBook.getQuantity();
         // if (stock == 0) {
