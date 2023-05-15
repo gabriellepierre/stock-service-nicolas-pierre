@@ -12,7 +12,7 @@ public class HelloWorldController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody String sayHello(
+    public String sayHello(
             @RequestParam(value = "name", required = false, defaultValue = "Stranger") String name) {
         return "Hello world !";
     }
