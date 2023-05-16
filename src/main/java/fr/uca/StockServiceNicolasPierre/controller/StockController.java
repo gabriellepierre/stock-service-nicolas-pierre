@@ -1,53 +1,51 @@
 package fr.uca.StockServiceNicolasPierre.controller;
 
 import fr.uca.StockServiceNicolasPierre.exception.BookNotFoundException;
+import fr.uca.StockServiceNicolasPierre.repository.BookRepository;
 import fr.uca.StockServiceNicolasPierre.entity.Book;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StockController {
 
-    private List<Book> books;
+    private BookRepository bookRepository;
 
-    public StockController() {
-        books = new ArrayList<>();
-        books.add(new Book("2", 18293));
-        books.add(new Book("8", 4));
-        books.add(new Book("7", 0));
-        books.add(new Book("1", 8));
+    public StockController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
-    // private Connection getConnection() throws Exception {
-    // Class.forName("org.postgresql.Driver");
-    // URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-    // String username = dbUri.getUserInfo().split(":")[0];
-    // String password = dbUri.getUserInfo().split(":")[1];
-    // String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-    // String dbUrl = System.getenv("spring.datasource.url");
-
-    // return DriverManager.getConnection(dbUrl, username, password);
-    // }
+    @GetMapping("/")
+    public List<Book> getBooks() {
+        return bookRepository.findAll();
+    }
 
     @GetMapping("/stock/{isbn}")
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<Integer> getBookStock(@PathVariable String isbn) {
-        Book searchedBook = books.stream().filter(book -> book.getIsbn().equals(isbn)).findFirst().get();
-        int stock = searchedBook.getQuantity();
-        // if (stock == 0) {
-        // throw new BookNotFoundException("Nous n'avez pas ce livre en stock");
-        // }
-        return new ResponseEntity<Integer>(stock, HttpStatus.OK);
+        Optional<Book> searchedBook = this.bookRepository.findById(isbn);
+
+        if (searchedBook.isPresent()) {
+            return ResponseEntity.ok().body(searchedBook.get().getQuantity());
+        } else {
+            throw new BookNotFoundException("Book not found");
+        }
     }
 
-    // @PutMapping("/book")
-    // public Book putBook(@RequestParam(value="isbn") UUID isbn, ) {
+    @PostMapping("/stock")
+    public void postBookStock(@RequestBody Book newBook) {
+        this.bookRepository.save(new Book(newBook.getIsbn(), newBook.getQuantity()));
+
+        // TODO throw error when the isbn is already in DB
+    }
+
+    // @PutMapping("/stock/{isbn}/{quantity}")
+    // public Book putBook(@PathVariable String isbn) {
+    // this.bookRepository.save(new Book(book.getIsbn(), quantity));
 
     // TODO Modify quantity field (decrease) when the buy request is settled
     // TODO Modify quantity field (increase) when the wholesaler is available
