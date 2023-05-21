@@ -20,12 +20,12 @@ public class BookService {
 
     private BookRepository bookRepository;
 
+    private final String SERVICE_ID = "Stock";
+    private final String SHOPPING_ID = "S";
+
     private String updateCorr(String initialCorr, String from, String to) {
         return initialCorr + ";" + from + "-" + to;
     }
-
-    private final String SERVICE_ID = "Stock";
-    private final String SHOPPING_ID = "S";
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
