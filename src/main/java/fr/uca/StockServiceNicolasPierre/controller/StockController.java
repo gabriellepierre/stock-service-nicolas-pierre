@@ -38,8 +38,8 @@ public class StockController {
             @RequestParam String from,
             @RequestParam String to) {
         try {
-            return bookService.getBookStock(isbn, updateCorr(corr, this.SHOPPING_ID, this.SERVICE_ID), this.SHOPPING_ID,
-                    this.SERVICE_ID);
+            return bookService.getBookStock(isbn, updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID), this.SERVICE_ID,
+                    this.SHOPPING_ID);
         } catch (BookNotFoundException e) {
             throw new BookNotFoundException("Book not found");
         } catch (InternalErrorException e) {
