@@ -4,6 +4,7 @@ import fr.uca.StockServiceNicolasPierre.exception.BadQuantityRequestException;
 import fr.uca.StockServiceNicolasPierre.exception.BookNotFoundException;
 import fr.uca.StockServiceNicolasPierre.exception.InternalErrorException;
 import fr.uca.StockServiceNicolasPierre.service.BookService;
+import fr.uca.StockServiceNicolasPierre.dto.BuyResponseDTO;
 import fr.uca.StockServiceNicolasPierre.dto.StockResponseDTO;
 import fr.uca.StockServiceNicolasPierre.entity.Book;
 
@@ -58,18 +59,16 @@ public class StockController {
     }
 
     @PutMapping("/buy/{isbn}/{quantity}")
-    public
-    // ResponseEntity<WholesalerResponseDto>
-    void buyBooks(
+    public ResponseEntity<BuyResponseDTO> buyBooks(
             @PathVariable String isbn,
             @PathVariable int quantity,
             @RequestParam String corr,
             @RequestParam String from,
             @RequestParam String to) {
         try {
-            bookService.buyBook(isbn, quantity, updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID), this.SERVICE_ID,
+            return bookService.buyBook(isbn, quantity, updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID),
+                    this.SERVICE_ID,
                     this.SHOPPING_ID);
-
         } catch (BookNotFoundException e) {
             throw new BookNotFoundException("Book not found.");
         } catch (BadQuantityRequestException e) {
@@ -77,7 +76,7 @@ public class StockController {
         } catch (InternalErrorException e) {
             throw new InternalErrorException("Internal error occured.");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new InternalErrorException("Internal error.");
         }
     }
 

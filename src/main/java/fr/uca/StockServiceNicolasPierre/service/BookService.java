@@ -65,7 +65,7 @@ public class BookService {
 
             BuyResponseDTO res = new BuyResponseDTO("Order ready", corr, from, to);
 
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            return new ResponseEntity<BuyResponseDTO>(res, HttpStatus.OK);
 
             // WholesalerResponseDto response = new WholesalerResponseDto(
             // "wholesale order sent",
@@ -81,7 +81,7 @@ public class BookService {
 
     public ResponseEntity<BuyResponseDTO> buyBook(String isbn,
             int quantity, String corr, String from, String to) {
-        if (quantity >= 0) {
+        if (quantity >= 0 && getBook(isbn).get().getQuantity() >= quantity) {
             return destockBook(isbn, quantity, corr, from, to);
         } else {
             throw new BadQuantityRequestException("Not enough stock.");
