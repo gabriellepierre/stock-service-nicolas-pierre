@@ -45,8 +45,7 @@ public class BookService {
 
         if (searchedBook.isPresent()) {
             StockResponseDTO res = new StockResponseDTO(searchedBook.get().getQuantity(),
-                    updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID),
-                    this.SERVICE_ID, this.SHOPPING_ID);
+                    corr, from, to);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new BookNotFoundException("Book not found");
