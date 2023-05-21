@@ -45,9 +45,8 @@ public class BookService {
 
         if (searchedBook.isPresent()) {
             StockResponseDTO res = new StockResponseDTO(searchedBook.get().getQuantity(),
-                    updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID),
-                    this.SERVICE_ID,
-                    this.SHOPPING_ID);
+                    updateCorr(corr, this.SHOPPING_ID, this.SERVICE_ID),
+                    this.SHOPPING_ID, this.SERVICE_ID);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new BookNotFoundException("Book not found");
@@ -73,7 +72,8 @@ public class BookService {
             bookToUpdate.setQuantity(oldStock - quantity);
             this.bookRepository.save(bookToUpdate);
 
-            BuyResponseDTO res = new BuyResponseDTO("Order ready", corr, from, to);
+            BuyResponseDTO res = new BuyResponseDTO("Order ready", updateCorr(corr, this.SHOPPING_ID, this.SERVICE_ID),
+                    this.SHOPPING_ID, this.SERVICE_ID);
 
             return new ResponseEntity<BuyResponseDTO>(res, HttpStatus.OK);
 
