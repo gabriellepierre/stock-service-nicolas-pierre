@@ -1,14 +1,14 @@
 package fr.uca.StockServiceNicolasPierre.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import fr.uca.StockServiceNicolasPierre.dto.BuyResponseDTO;
 import fr.uca.StockServiceNicolasPierre.dto.StockResponseDTO;
 import fr.uca.StockServiceNicolasPierre.entity.Book;
 import fr.uca.StockServiceNicolasPierre.exception.BadQuantityRequestException;
@@ -24,7 +24,7 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public java.util.List<Book> getBooks() {
+    public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 
@@ -54,14 +54,18 @@ public class BookService {
 
     // Methods to buy a book
 
-    private void destockBook(String isbn,
-            int quantity) {
+    private ResponseEntity<BuyResponseDTO> destockBook(String isbn,
+            int quantity, String corr, String from, String to) {
         // We check if the new book is registered db
         if (getBook(isbn).isPresent()) {
             Book bookToUpdate = getBook(isbn).get();
             int oldStock = bookToUpdate.getQuantity();
             bookToUpdate.setQuantity(oldStock - quantity);
             this.bookRepository.save(bookToUpdate);
+
+            BuyResponseDTO res = new BuyResponseDTO("Order ready", corr, from, to);
+
+            return new ResponseEntity<>(res, HttpStatus.OK);
 
             // WholesalerResponseDto response = new WholesalerResponseDto(
             // "wholesale order sent",
@@ -75,10 +79,10 @@ public class BookService {
         }
     }
 
-    public void buyBook(String isbn,
+    public ResponseEntity<BuyResponseDTO> buyBook(String isbn,
             int quantity, String corr, String from, String to) {
         if (quantity >= 0) {
-            destockBook(isbn, quantity);
+            return destockBook(isbn, quantity, corr, from, to);
         } else {
             throw new BadQuantityRequestException("Not enough stock.");
         }

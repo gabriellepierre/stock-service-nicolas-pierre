@@ -21,21 +21,25 @@ public class StockController {
     @Autowired
     private BookService bookService;
 
+    private final String SERVICE_ID = "Stock";
+    private final String SHOPPING_ID = "S";
+
+    private String updateCorr(String initialCorr, String from, String to) {
+        return initialCorr + ";" + from + "-" + to;
+    }
+
     @GetMapping("/")
     public List<Book> getBooks() {
         return bookService.getBooks();
     }
-
-    // private String updateCorr(String initialCorr, String from, String to) {
-    // return initialCorr + ";" + from + "-" + to;
-    // }
 
     @GetMapping("/stock/{isbn}")
     public ResponseEntity<StockResponseDTO> getBookStock(@PathVariable String isbn, @RequestParam String corr,
             @RequestParam String from,
             @RequestParam String to) {
         try {
-            return bookService.getBookStock(isbn, corr, from, to);
+            return bookService.getBookStock(isbn, updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID), this.SERVICE_ID,
+                    this.SHOPPING_ID);
         } catch (BookNotFoundException e) {
             throw new BookNotFoundException("Book not found");
         } catch (InternalErrorException e) {
@@ -68,7 +72,9 @@ public class StockController {
             throw new InvalidKeyException("Invalid api key.");
 
         try {
-            bookService.buyBook(isbn, quantity, corr, from, to);
+            bookService.buyBook(isbn, quantity, updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID), this.SERVICE_ID,
+                    this.SHOPPING_ID);
+
         } catch (BookNotFoundException e) {
             throw new BookNotFoundException("Book not found.");
         } catch (BadQuantityRequestException e) {
