@@ -3,7 +3,6 @@ package fr.uca.StockServiceNicolasPierre.controller;
 import fr.uca.StockServiceNicolasPierre.exception.BadQuantityRequestException;
 import fr.uca.StockServiceNicolasPierre.exception.BookNotFoundException;
 import fr.uca.StockServiceNicolasPierre.exception.InternalErrorException;
-import fr.uca.StockServiceNicolasPierre.exception.InvalidKeyException;
 import fr.uca.StockServiceNicolasPierre.service.BookService;
 import fr.uca.StockServiceNicolasPierre.dto.StockResponseDTO;
 import fr.uca.StockServiceNicolasPierre.entity.Book;
@@ -66,11 +65,7 @@ public class StockController {
             @PathVariable int quantity,
             @RequestParam String corr,
             @RequestParam String from,
-            @RequestParam String to,
-            @RequestParam String key) {
-        if (!key.equals("1234"))
-            throw new InvalidKeyException("Invalid api key.");
-
+            @RequestParam String to) {
         try {
             bookService.buyBook(isbn, quantity, updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID), this.SERVICE_ID,
                     this.SHOPPING_ID);
