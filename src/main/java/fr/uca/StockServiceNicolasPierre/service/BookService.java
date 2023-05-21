@@ -20,13 +20,6 @@ public class BookService {
 
     private BookRepository bookRepository;
 
-    private final String SERVICE_ID = "Stock";
-    private final String SHOPPING_ID = "S";
-
-    private String updateCorr(String initialCorr, String from, String to) {
-        return initialCorr + ";" + from + "-" + to;
-    }
-
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
@@ -71,8 +64,7 @@ public class BookService {
             bookToUpdate.setQuantity(oldStock - quantity);
             this.bookRepository.save(bookToUpdate);
 
-            BuyResponseDTO res = new BuyResponseDTO("Order ready", updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID),
-                    this.SERVICE_ID, this.SHOPPING_ID);
+            BuyResponseDTO res = new BuyResponseDTO("Order ready", corr, from, to);
 
             return new ResponseEntity<BuyResponseDTO>(res, HttpStatus.OK);
 
