@@ -20,6 +20,13 @@ public class BookService {
 
     private BookRepository bookRepository;
 
+    private String updateCorr(String initialCorr, String from, String to) {
+        return initialCorr + ";" + from + "-" + to;
+    }
+
+    private final String SERVICE_ID = "Stock";
+    private final String SHOPPING_ID = "S";
+
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
@@ -37,7 +44,10 @@ public class BookService {
         Optional<Book> searchedBook = getBook(isbn);
 
         if (searchedBook.isPresent()) {
-            StockResponseDTO res = new StockResponseDTO(searchedBook.get().getQuantity(), corr, from, to);
+            StockResponseDTO res = new StockResponseDTO(searchedBook.get().getQuantity(),
+                    updateCorr(corr, this.SERVICE_ID, this.SHOPPING_ID),
+                    this.SERVICE_ID,
+                    this.SHOPPING_ID);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new BookNotFoundException("Book not found");
